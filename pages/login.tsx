@@ -33,11 +33,22 @@ export default function Login() {
       return setFormError('Email format is not valid.');
 
     try {
-      setFormError('');
       setLoading(true);
-      const d = await m!.auth.loginWithMagicLink({ email });
-      console.log(d);
-      return router.push('/');
+      setFormError('');
+      const didToken = await m!.auth.loginWithMagicLink({ email });
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          'Contnet-Type': 'application/json',
+        },
+      });
+      const { data: token } = await res.json();
+      if (token) return router.push('/');
+      else {
+        setLoading(false);
+        setFormError('Error logging in');
+      }
     } catch (err) {
       console.error('error logging in', err);
       setFormError('Error logging in');
