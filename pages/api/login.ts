@@ -7,7 +7,7 @@ import { setCookie } from '../../lib/cookie';
 
 type Data = {
   data: {} | null;
-  error: string;
+  error: string | null;
 };
 
 export default async function login(
@@ -21,6 +21,7 @@ export default async function login(
     const metaData = await mAdmin.users.getMetadataByToken(didToken!);
     const token = JWT.sign(
       {
+        issuer: metaData.issuer,
         'https://hasura.io/jwt/claims': {
           'x-hasura-allowed-roles': ['user', 'admin'],
           'x-hasura-default-role': 'user',
@@ -39,7 +40,7 @@ export default async function login(
     return res
       .status(200)
       .setHeader('Set-Cookie', setCookie('token', token))
-      .send({ data: token, error: '' });
+      .send({ data: token, error: null });
   } catch (error) {
     console.error(error);
     return res.status(500).send({
