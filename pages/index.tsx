@@ -1,17 +1,17 @@
 import Head from 'next/head';
 import { Banner, Navbar, CardSection } from '../components';
 
-import {
-  getVideos,
-  getPopularVideos,
-  getUserWatchedVideos,
-} from '../lib/videos';
+import { getVideos, getPopularVideos, formatVideos } from '../lib/videos';
 import { decodeToken } from '../lib/utils';
 
 export async function getServerSideProps(context: any) {
   const { token } = context.req.cookies;
   const { issuer } = decodeToken(token);
-  const watchedVideos = await getUserWatchedVideos(token, { userId: issuer });
+  const watchedVideos = await formatVideos(
+    token,
+    { userId: issuer },
+    'watched'
+  );
 
   const sciFiVideos = await getVideos('sci fi movies');
   // const actionVideos = await getVideos('action movies');

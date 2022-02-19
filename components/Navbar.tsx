@@ -44,7 +44,7 @@ export default function Navbar() {
   return (
     <div className='bg-bg flex items-center h-24 text-lg font-semibold sticky top-0 z-50'>
       <div className='flex items-center w-1/2 '>
-        <div className='w-1/4'>
+        <div className='w-1/2'>
           <Link href='/'>
             <a>
               <h1 className='text-4xl text-left font-bold text-transparent bg-clip-text  p-4 bg-gradient-to-tl from-primary to-secondary'>
@@ -60,7 +60,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href='/browse/my-list'>
+            <Link href='/my-list'>
               <a>My List</a>
             </Link>
           </li>

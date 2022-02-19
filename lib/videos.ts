@@ -1,6 +1,6 @@
 import { Videos } from '../types';
 import videosData from '../data/videos.json';
-import { getWachedVideos } from '../lib/hasura';
+import { getMyListVideos, getWachedVideos } from '../lib/hasura';
 
 const isDev = process.env.DEVELOPMNET;
 const baseUrl = 'youtube.googleapis.com/youtube/v3';
@@ -53,11 +53,15 @@ export async function getVideoById(videoId: string) {
   return await getCommonVideos(URL);
 }
 
-export async function getUserWatchedVideos(
+export async function formatVideos(
   token: string,
-  { userId }: { userId: string }
+  { userId }: { userId: string },
+  type: string
 ) {
-  const videoIds = await getWachedVideos(token, { userId });
+  const videoIds =
+    type === 'watched'
+      ? await getWachedVideos(token, { userId })
+      : await getMyListVideos(token, { userId });
 
   return videoIds.map((item: { videoId: string }) => {
     return {
