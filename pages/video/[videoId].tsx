@@ -9,11 +9,10 @@ import { Videos } from '../../types';
 import { Navbar } from '../../components';
 
 export async function getStaticProps({ params }: any) {
-  const video = await getVideoById(params.id);
-  console.log(video);
+  const video = await getVideoById(params.videoId);
   return {
     props: {
-      video: video.length > 0 ? video[0] : {},
+      video: video?.length > 0 ? video[0] : {},
     },
     revalidate: 10, // In seconds ISR
   };
@@ -43,7 +42,11 @@ export default function Video({ video }: { video: typeof Videos[0] }) {
         const res = await fetch(`/api/stats?videoId=${videoId}`, {
           method: 'GET',
         });
-        const { data } = await res.json();
+        const { data, error } = await res.json();
+        if (error) {
+          console.log(error);
+          return;
+        }
         setToggleHeart(data.favourited);
       } catch (error) {
         console.log(error);
@@ -76,11 +79,13 @@ export default function Video({ video }: { video: typeof Videos[0] }) {
       setLoadingHeart(false);
     }
   };
+
+  const { title, channelTitle, description, publishedAt, viewCount } = video;
   return (
     <>
       <Head>
-        <title>{video.channelTitle}</title>
-        <meta name={video.channelTitle} content={video.description} />
+        <title>{title}</title>
+        <meta name={channelTitle} content={description} />
       </Head>
 
       <Navbar />
@@ -115,18 +120,22 @@ export default function Video({ video }: { video: typeof Videos[0] }) {
 
         <div className='p-10 mt-4 flex'>
           <div className='pr-4 w-2/3 text-xl font-semibold'>
-            <p className='text-secondary mb-4'>{video.publishedAt}</p>
-            <p>{video.title}</p>
-            <p className='mt-8 text-lg'>{video.description}</p>
+            <p className='text-secondary mb-4'>{publishedAt}</p>
+            <p>{title}</p>
+            <p className='mt-8 text-lg'>{description}</p>
           </div>
 
           <div className='w-1/3 text-gray-500 font-semibold'>
-            <p>
-              Cast: <span className='text-white'>{video.channelTitle}</span>
-            </p>
-            <p className='mt-4'>
-              View Count: <span className='text-white'>{video.viewCount}</span>
-            </p>
+            {channelTitle && (
+              <p>
+                Cast: <span className='text-white'>{channelTitle}</span>
+              </p>
+            )}
+            {viewCount && (
+              <p className='mt-4'>
+                View Count: <span className='text-white'>{viewCount}</span>
+              </p>
+            )}
           </div>
         </div>
       </Modal>

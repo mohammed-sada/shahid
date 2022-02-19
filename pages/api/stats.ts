@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import JWT from 'jsonwebtoken';
-import validator from 'validator';
+
 import {
   createVideoStats,
   getVideoStats,

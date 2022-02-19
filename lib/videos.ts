@@ -1,5 +1,5 @@
 import { Videos } from '../types';
-import singleVideo from '../data/video.json';
+import videosData from '../data/videos.json';
 
 const isDev = process.env.DEVELOPMNET;
 const baseUrl = 'youtube.googleapis.com/youtube/v3';
@@ -13,13 +13,13 @@ async function fetchVideos(URL: string) {
 }
 async function getCommonVideos(URL: string) {
   try {
-    const data = isDev ? singleVideo : await fetchVideos(URL);
-
+    const data = isDev ? videosData : await fetchVideos(URL);
     if (data?.error) {
       console.error(data.error);
+      return [];
     }
-    const { items: videos } = data;
 
+    const { items: videos } = data;
     return videos.map((video: any) => {
       const snippet = video.snippet;
       return {

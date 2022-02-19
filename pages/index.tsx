@@ -3,12 +3,12 @@ import { Banner, Navbar, CardSection } from '../components';
 import { getVideos, getPopularVideos } from '../lib/videos';
 
 export async function getServerSideProps() {
-  // const sciFiVideos = await getVideos('sci fi movies');
+  const sciFiVideos = await getVideos('sci fi movies');
   // const actionVideos = await getVideos('action movies');
   // const popularVideos = await getPopularVideos();
   return {
     props: {
-      sciFiVideos: [],
+      sciFiVideos,
     },
   };
 }
@@ -30,7 +30,7 @@ const Home = ({ sciFiVideos, actionVideos, popularVideos }: any) => {
         imgUrl='/static/space-sweepers.jpg'
       />
 
-      {/*  <CardSection header='Sci-Fi' size='large' videos={sciFiVideos} /> */}
+      <CardSection header='Sci-Fi' size='large' videos={sciFiVideos} />
       {/* <CardSection header='Action' size='medium' videos={actionVideos} /> */}
       {/* <CardSection header='Popular' size='small' videos={popularVideos} />  */}
     </div>
