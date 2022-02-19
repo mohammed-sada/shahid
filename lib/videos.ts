@@ -1,5 +1,6 @@
 import { Videos } from '../types';
 import videosData from '../data/videos.json';
+import { getWachedVideos } from '../lib/hasura';
 
 const isDev = process.env.DEVELOPMNET;
 const baseUrl = 'youtube.googleapis.com/youtube/v3';
@@ -50,4 +51,18 @@ export async function getPopularVideos() {
 export async function getVideoById(videoId: string) {
   const URL = `videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}`;
   return await getCommonVideos(URL);
+}
+
+export async function getUserWatchedVideos(
+  token: string,
+  { userId }: { userId: string }
+) {
+  const videoIds = await getWachedVideos(token, { userId });
+
+  return videoIds.map((item: { videoId: string }) => {
+    return {
+      id: item.videoId,
+      imgUrl: `https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`,
+    };
+  });
 }

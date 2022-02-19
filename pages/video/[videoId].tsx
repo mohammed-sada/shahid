@@ -85,7 +85,7 @@ export default function Video({ video }: { video: typeof Videos[0] }) {
     <>
       <Head>
         <title>{title}</title>
-        <meta name={channelTitle} content={description} />
+        <meta name='description' content={description} />
       </Head>
 
       <Navbar />
@@ -121,8 +121,8 @@ export default function Video({ video }: { video: typeof Videos[0] }) {
         <div className='p-10 mt-4 flex'>
           <div className='pr-4 w-2/3 text-xl font-semibold'>
             <p className='text-secondary mb-4'>{publishedAt}</p>
-            <p>{title}</p>
-            <p className='mt-8 text-lg'>{description}</p>
+            <p className='mb-4'>{title}</p>
+            <p className='mt-8 text-lg text-gray-400'>{description}</p>
           </div>
 
           <div className='w-1/3 text-gray-500 font-semibold'>
