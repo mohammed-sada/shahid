@@ -8,7 +8,7 @@ type PropsType = {
   header: string;
   size: string;
   videos: typeof Videos;
-  shouldWrap: boolean;
+  shouldWrap?: boolean;
 };
 
 export default function CardSection({

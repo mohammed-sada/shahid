@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import { m } from '../lib/magic-links';
 import Loading from './Loading';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Navbar() {
   const router = useRouter();
   const [username, setUsername] = useState<string | null>();
   const [toggeDropDown, setToggeDropDown] = useState<Boolean>(false);
+
+  const { setToken } = useContext(AuthContext);
 
   useEffect(() => {
     let isMounted = true;
@@ -32,8 +35,8 @@ export default function Navbar() {
 
   const handleOnLogout = async () => {
     try {
-      await m!.user.logout();
-      console.log(await m!.user.isLoggedIn()); // => `false`
+      setToken(null);
+      await fetch('/api/logout');
       router.replace('/login');
     } catch (err) {
       console.log('error while loging out ', err);

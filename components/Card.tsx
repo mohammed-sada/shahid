@@ -26,7 +26,7 @@ export default function Card({
   };
 
   const handleOnError = (e: object) => {
-    console.log('image error =>', e);
+    // console.log('image error =>', e);
     setImage('/static/space-sweeper.jpg');
   };
   return (

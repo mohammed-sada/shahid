@@ -7,6 +7,16 @@ import { decodeToken } from '../lib/utils';
 
 export async function getServerSideProps(context: any) {
   const { token } = context.req.cookies;
+  if (!token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login',
+      },
+      props: {},
+    };
+  }
+
   const { issuer } = decodeToken(token);
   const videos = await formatVideos(token, { userId: issuer }, 'mylist');
   return {
