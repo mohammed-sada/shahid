@@ -18,7 +18,7 @@ export async function getServerSideProps(context: any) {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ContextProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </ContextProvider>
   );
 }
