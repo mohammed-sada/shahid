@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -6,12 +6,9 @@ import validator from 'validator';
 
 import { m } from '../lib/magic-links';
 import { Loading } from '../components';
-import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
   const router = useRouter();
-
-  const { setToken } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -48,7 +45,6 @@ export default function Login() {
       });
       const { data: token } = await res.json();
       if (token) {
-        setToken(token);
         return router.push('/');
       } else {
         setLoading(false);

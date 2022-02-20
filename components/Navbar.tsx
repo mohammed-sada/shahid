@@ -3,39 +3,17 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
-import { m } from '../lib/magic-links';
 import Loading from './Loading';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Navbar() {
   const router = useRouter();
-  const [username, setUsername] = useState<string | null>();
   const [toggeDropDown, setToggeDropDown] = useState<Boolean>(false);
 
-  const { setToken } = useContext(AuthContext);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function getUsername() {
-      // Assumes a user is already logged in
-      try {
-        const { email } = await m!.user.getMetadata();
-        isMounted && setUsername(email);
-      } catch (err) {
-        console.error('error while retreieving email address', err);
-      }
-    }
-    getUsername();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { username } = useContext(AuthContext);
 
   const handleOnLogout = async () => {
     try {
-      setToken(null);
       await fetch('/api/logout');
       router.replace('/login');
     } catch (err) {
@@ -81,7 +59,11 @@ export default function Navbar() {
             onClick={() => setToggeDropDown((prev) => !prev)}
           >
             {username ? username : <Loading />}
-            {toggeDropDown ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            {username && toggeDropDown ? (
+              <IoMdArrowDropup />
+            ) : (
+              <IoMdArrowDropdown />
+            )}
           </p>
           {toggeDropDown && (
             <div className='text-base absolute top-8 right-0 bg-primary px-4 py-2 rounded-2xl'>

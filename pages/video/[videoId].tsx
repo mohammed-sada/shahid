@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Modal from 'react-modal';
@@ -6,8 +6,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import { getVideoById } from '../../lib/videos';
 import { Videos } from '../../types';
-import { Navbar, Loading } from '../../components';
-import { AuthContext } from '../../context/AuthContext';
+import { Navbar } from '../../components';
 
 export async function getStaticProps(context: any) {
   const video = await getVideoById(context.params.videoId);
@@ -31,13 +30,11 @@ export function getStaticPaths() {
 export default function Video({ video }: { video: typeof Videos[0] }) {
   Modal.setAppElement('#__next');
 
-  const { token } = useContext(AuthContext);
   const router = useRouter();
   const { videoId } = router.query;
 
   const [toggleHeart, setToggleHeart] = useState(false);
   const [loadingHeart, setLoadingHeart] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getCurrentVideoStats() {
@@ -82,33 +79,6 @@ export default function Video({ video }: { video: typeof Videos[0] }) {
       setLoadingHeart(false);
     }
   };
-
-  useEffect(() => {
-    function checkIfLoggedin() {
-      if (!token) {
-        setLoading(true);
-        return router.push('/login');
-      }
-    }
-    checkIfLoggedin();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    router.events.on('routeChangeComplete', () => setLoading(false));
-    router.events.on('routeChangeError', () => setLoading(false));
-
-    return () => {
-      router.events.off('routeChangeComplete', () => setLoading(false));
-      router.events.off('routeChangeError', () => setLoading(false));
-    };
-  }, [router]);
-
-  if (loading)
-    return (
-      <div className='flex justify-center items-center h-screen'>
-        <Loading size={70} />
-      </div>
-    );
 
   const { title, channelTitle, description, publishedAt, viewCount } = video;
   return (
