@@ -17,7 +17,6 @@ export default async function login(
   if (req.method !== 'POST')
     return res.status(400).json({ data: null, error: 'This is a post route!' });
   try {
-    console.log(req.headers.authorization);
     const didToken = req.headers.authorization?.split('Bearer ')[1];
     const metaData = await mAdmin.users.getMetadataByToken(didToken!);
     const token = JWT.sign(

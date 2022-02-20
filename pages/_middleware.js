@@ -10,7 +10,6 @@ export function middleware(req, ev) {
     : null;
   const { pathname } = req.nextUrl;
 
-  console.log(pathname);
   if (pathname.includes('/api/login') || pathname === '/login' || decodedToken && decodedToken.issuer || pathname.includes('/static')) {
     return NextResponse.next();
   }

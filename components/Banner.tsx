@@ -13,7 +13,6 @@ export default function Banner({ id, title, subTitle, imgUrl }: PropsType) {
   const router = useRouter();
 
   const handleOnPlay = () => {
-    console.log('play');
     router.push(`/video/${id}`);
   };
   return (
