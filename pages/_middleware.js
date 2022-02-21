@@ -9,7 +9,9 @@ export function middleware(req, ev) {
     ? JWT.verify(token, process.env.JWT_SECRET)
     : null;
   const { pathname } = req.nextUrl;
-  console.log(pathname);
+
+  if (pathname === '/login' && (decodedToken && decodedToken.issuer))
+    return NextResponse.redirect(isDev ? 'http://localhost:3000' : ' https://shahid-vip.vercel.app');
 
   if (pathname.includes('/api/login') || pathname === '/login' || decodedToken && decodedToken.issuer || pathname.includes('/static')) {
     return NextResponse.next();

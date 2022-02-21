@@ -5,7 +5,6 @@ export const AuthContext = createContext();
 
 export default function ContextProvider({ children }) {
     const [username, setUsername] = useState(null);
-    console.log(username);
     useEffect(() => {
         let isMounted = true;
 
