@@ -44,6 +44,7 @@ export default function Login() {
         },
       });
       const { data: token } = await res.json();
+      console.log('token', token);
       if (token) {
         return router.push('/');
       } else {

@@ -27,7 +27,18 @@ export default function MyList({ videos }: any) {
 
       <Navbar />
       <main className='mt-10'>
-        <CardSection header='My List' size='small' videos={videos} shouldWrap />
+        {videos.length > 0 ? (
+          <CardSection
+            header='My List'
+            size='small'
+            videos={videos}
+            shouldWrap
+          />
+        ) : (
+          <h1 className='text-transparent bg-clip-text p-4 bg-gradient-to-tl from-primary to-secondary text-4xl font-semibold text-center'>
+            You have not hearted any videos yet!
+          </h1>
+        )}
       </main>
     </div>
   );
