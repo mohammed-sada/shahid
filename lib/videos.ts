@@ -21,13 +21,15 @@ async function getCommonVideos(URL: string) {
     }
 
     const { items: videos } = data;
+
     return videos.map((video: any) => {
       const snippet = video.snippet;
+      const id = video.id?.videoId || video.id;
       return {
-        id: video.id?.videoId || video.snippet.channelId,
+        id,
         title: snippet.title,
         description: snippet.description,
-        imgUrl: snippet.thumbnails.high.url,
+        imgUrl: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
         channelTitle: snippet.channelTitle,
         viewCount: video.statistics ? video.statistics.viewCount : 0,
         publishedAt: snippet.publishedAt,

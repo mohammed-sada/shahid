@@ -1,19 +1,19 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 import ContextProvider from '../context/AuthContext';
+import '../styles/globals.css';
+import 'nprogress/nprogress.css';
 
-export async function getServerSideProps(context: any) {
-  const { token } = context.req.cookies;
-  if (!token) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/login',
-      },
-      props: {},
-    };
-  }
-}
+NProgress.configure({
+  minimum: 0.3,
+  easing: 'ease',
+  speed: 800,
+  showSpinner: false,
+});
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -66,7 +66,7 @@ export default function Navbar() {
             )}
           </p>
           {toggeDropDown && (
-            <div className='text-base absolute top-8 right-0 bg-primary px-4 py-2 rounded-2xl'>
+            <div className='text-base absolute top-8 right-0 bg-primary px-4 py-2 rounded-2xl cursor-pointer'>
               <Link href='#'>
                 <a onClick={handleOnLogout}>Sign out</a>
               </Link>
